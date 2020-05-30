@@ -1,8 +1,22 @@
 <template>
   <div class="input-container">
-    <textarea></textarea>
+    <!--  
+      v-on は @ と省略できるので、以下のように書くこともできます
+      <textarea @click="login"></textarea>
+    -->
+    <textarea v-on:click="login"></textarea>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    login() {
+      window.alert('ログインしろよ')
+    }
+  }
+}
+</script>
 
 <style scoped>
 .input-container {
