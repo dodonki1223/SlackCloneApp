@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Layoutの実験</p>
     <nuxt />
   </div>
 </template>
