@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <p>Layoutの実験</p>
-    <nuxt />
+  <div class="app-layout">
+    <div class="sidebar"></div>
+    <div class="main-content">
+      <nuxt />
+    </div>
   </div>
 </template>
 
@@ -52,5 +54,31 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+.app-layout {
+  /* flex：ある要素に定義するだけで、その直下の要素が並列になるスタイル */
+  display: flex;
+}
+
+.sidebar {
+  width: 300px;
+  background: #4A4141;
+  /*  
+    vw の v は Viewport のイニシャル
+    vw  ：ビューポートの幅に対する割あり
+    vh  ：ビューポートの高さに対する割合
+    vmin：ビューポートの幅と高さのうち、値が小さい方に対する割合
+    vmax：ビューポートの幅と高さのうち、値が大きい方に対する割合
+
+    iPhone 5S のビューポート幅をピクセルで表すと 320px な訳ですが、10vw はその 1/10 ということで32px が img の幅となります
+  */
+  height: 100vh;
+}
+
+.main-content {
+  width: 100%;
+  background: #F1F1F1;
+  height: 100vh;
 }
 </style>
