@@ -1,6 +1,10 @@
 <template>
   <div class="app-layout">
-    <div class="sidebar"></div>
+    <div class="sidebar">
+      <p>チャンネル一覽</p>
+      <p>#general</p>
+      <p>#random</p>
+    </div>
     <div class="main-content">
       <nuxt />
     </div>
@@ -74,6 +78,12 @@ html {
     iPhone 5S のビューポート幅をピクセルで表すと 320px な訳ですが、10vw はその 1/10 ということで32px が img の幅となります
   */
   height: 100vh;
+  padding: 20px;
+}
+
+.sidebar p {
+  color: #dddddd;
+  padding-top: 4px;
 }
 
 .main-content {
