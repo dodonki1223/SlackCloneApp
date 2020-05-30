@@ -1,10 +1,13 @@
 <template>
-  <!-- 
-    読みやすいコードとは読者に読ませないコード 
-    以下のコードは読まないと意味不明です……のちにリファクタする
-  -->
   <div class="container">
-    <messages />
+    <div class="chats-layout">
+      <messages />
+    </div>
+    <div class="input-layout">
+      <div class="input-container">
+        <textarea></textarea>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,5 +21,31 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.container {
+  height: 100%;
+}
+
+.chats-layout {
+  /* 
+    内容がボックスに収まらない場合、収まらない部分はボックスからはみ出さない 
+    内容が収まらない場合には、スクロールバーなどが表示される
+  */
+  overflow: scroll;
+  height: 90%;
+}
+
+.input-layout {
+  height: 10%;
+}
+
+.input-container {
+  padding: 10px;
+  height: 100%;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+}
 </style>
