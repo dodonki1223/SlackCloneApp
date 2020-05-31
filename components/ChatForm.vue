@@ -1,6 +1,12 @@
 <template>
   <div class="input-container">
-    <textarea v-model="text" v-on:click="openLoginModal" v-on:keydown.enter="addMessage"></textarea>
+    <!-- 
+      ログインしていないときには、モーダルが開く用のフォームを表示し、ログインしているときに、チャット
+      を投稿する用のフォームを表示することにします
+      v-if を使用してモーダルの表示とチャット入力用を切り替える
+     -->
+    <textarea v-model="text" v-if="isAuthenticated" v-on:keydown.enter="addMessage"></textarea>
+    <textarea v-model="text" v-else v-on:click="openLoginModal"></textarea>
     <!--  
       visibleに .sync を追加しないとモーダルを閉じることができない
       ChatForm.vueにおいて dialogVisible が変更されてたことが ElDialog の
@@ -33,6 +39,11 @@ export default {
     return {
       dialogVisible: false,
       text: null
+    }
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated
     }
   },
   methods: {
