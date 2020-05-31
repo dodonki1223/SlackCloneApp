@@ -3,8 +3,10 @@
     <!-- 
       ログインしていないときには、モーダルが開く用のフォームを表示し、ログインしているときに、チャット
       を投稿する用のフォームを表示することにします
-      v-if を使用してモーダルの表示とチャット入力用を切り替える
+      v-if を使用してモーダルの表示とチャット入力用を切り替える、ユーザーの画像も表示させる
+        user.photoURL はGoogleアカウントのアバター画像のURLが取得できる
      -->
+    <img v-if="isAuthenticated" :src="user.photoURL" class="avatar">
     <textarea v-model="text" v-if="isAuthenticated" v-on:keydown.enter="addMessage"></textarea>
     <textarea v-model="text" v-else v-on:click="openLoginModal"></textarea>
     <!--  
@@ -42,6 +44,9 @@ export default {
     }
   },
   computed: {
+    user() {
+      return this.$store.state.user
+    },
     isAuthenticated() {
       return this.$store.getters.isAuthenticated
     }
@@ -105,6 +110,22 @@ export default {
 </script>
 
 <style scoped>
+.input-container {
+  padding: 10px;
+  height: 100%;
+  display: flex;
+}
+
+.avatar {
+  height: 100%;
+  width: auto;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+}
+
 .image-container {
   display: flex;
   justify-content: center
@@ -113,15 +134,5 @@ export default {
 img {
   width: 70%;
   cursor: pointer;
-}
-
-.input-container {
-  padding: 10px;
-  height: 100%;
-}
-
-textarea {
-  width: 100%;
-  height: 100%;
 }
 </style>
