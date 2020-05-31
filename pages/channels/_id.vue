@@ -10,7 +10,7 @@
         そのときにコードが非常に複雑になることが多いです
         Componentで分けていれば、Componentごとに処理が別れているのでコードが理解しやすくなります
       -->
-      <!-- <chat-form /> -->
+      <chat-form />
     </div>
   </div>
 </template>
@@ -24,6 +24,21 @@ export default {
   components: {
     Messages,
     ChatForm
+  },
+  data() {
+    return {
+      messages: []
+    }
+  },
+  mounted() {
+    const channelId = this.$route.params.id
+    db.collection('channels').doc(channelId).collection('messages').get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.messages.push({ id: doc.id, ...doc.data() })
+        })
+        console.log(this.messages)
+      })
   }
 }
 </script>
