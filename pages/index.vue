@@ -18,11 +18,19 @@
 <script>
 import Messages from '~/components/Messages.vue'
 import ChatForm from '~/components/ChatForm.vue'
+import { db } from '~/plugins/firebase'
 
 export default {
   components: {
     Messages,
     ChatForm
+  },
+  mounted() {
+    db.collection('channels').doc('KUZyb5lVSJtvJfGbTKrH').get()
+      .then((doc) => {
+        console.log('doc.id: ', doc.id)
+        console.log('doc.data(): ', doc.data())
+      })
   }
 }
 </script>
