@@ -32,12 +32,38 @@ export default {
   },
   mounted() {
     const channelId = this.$route.params.id
-    db.collection('channels').doc(channelId).collection('messages').get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          this.messages.push({ id: doc.id, ...doc.data() })
+    /*
+      -------------------------------------------------------------------------------------------------
+      db.collection('channels').doc(channelId).collection('messages')
+        .onSnapshot((snapshot) => {
         })
-        console.log(this.messages)
+      -------------------------------------------------------------------------------------------------
+        onSnapshot を collection('messages') に対して実行している。これは 「messages collection に変更
+        があったら何か処理を実行しますよ」ということを意味しています
+      -------------------------------------------------------------------------------------------------
+      snapshot.docChanges().forEach((change) => {})
+      -------------------------------------------------------------------------------------------------
+        collection に変化があった時に snapshot がコールバック関数に渡されます。snapshot はデータベースの
+        コピーのようなものです
+      -------------------------------------------------------------------------------------------------
+      const doc = change.doc
+      -------------------------------------------------------------------------------------------------
+        change.doc で doc が取得できます
+      -------------------------------------------------------------------------------------------------
+      if (change.type === 'added') {}
+      -------------------------------------------------------------------------------------------------
+        firestore の変更といってもいろいろあります。データの追加かもしれないし、変更かもしれない、
+        削除かもしれないですね
+        そのタイプについてはこちらを:https://firebase.google.com/docs/firestore/query-data/listen?hl=ja
+    */
+    db.collection('channels').doc(channelId).collection('messages')
+      .onSnapshot((snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          const doc = change.doc
+          if (change.type === 'added') {
+            this.messages.push({ id: doc.id, ...doc.data() })
+          }
+        })
       })
   }
 }
