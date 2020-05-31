@@ -9,16 +9,19 @@
         https://qiita.com/harhogefoo/items/7232508db1f07e6b1859
     -->
     <el-dialog
-      title="Tips"
+      title=""
       :visible.sync="dialogVisible"
       width="30%">
-      <span>This is a message</span>
+      <div class="image-container">
+        <img src="~/assets/google_sign_in.png" v-on:click="login">
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { db } from '~/plugins/firebase' 
+import { db, firebase } from '~/plugins/firebase' 
+
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -61,12 +64,38 @@ export default {
     keyDownForJPConversion(event) {
       const codeForConversion = 229
       return event.keyCode === codeForConversion
+    },
+    login() {
+      // Provider を定義する
+      //   Firebaseにはいろいろなログイン方法があります。なのでどのログイン方法を使うのかを指定してあげます
+      const provider = new firebase.auth.GoogleAuthProvider()
+      // firebase.auth の signIn メソッドを実行する
+      // provider を引数にして signIn メソッドを実行してあげる
+      firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+          // then と catch については以下の記事を参照するとよい
+          //   https://rightcode.co.jp/blog/information-technology/javascript-promise
+          const user = result.user
+          console.log(user)
+        }).catch((error) => {
+          window.alert(error)
+        })
     }
   }
 }
 </script>
 
 <style scoped>
+.image-container {
+  display: flex;
+  justify-content: center
+}
+
+img {
+  width: 70%;
+  cursor: pointer;
+}
+
 .input-container {
   padding: 10px;
   height: 100%;
