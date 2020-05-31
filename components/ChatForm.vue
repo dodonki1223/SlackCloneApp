@@ -1,18 +1,20 @@
 <template>
   <div class="input-container">
-    <!--  
-      v-on は @ と省略できるので、以下のように書くこともできます
-      <textarea @click="login"></textarea>
-    -->
-    <textarea v-on:click="login"></textarea>
+    <textarea v-model="text"></textarea>
+    <button @click="checkTextValue">値を確認！</button>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      text: 'テスト'
+    }
+  },
   methods: {
-    login() {
-      window.alert('ログインしろよ')
+    checkTextValue() {
+      console.log(this.text)
     }
   }
 }
