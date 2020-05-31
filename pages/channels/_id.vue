@@ -56,7 +56,7 @@ export default {
         削除かもしれないですね
         そのタイプについてはこちらを:https://firebase.google.com/docs/firestore/query-data/listen?hl=ja
     */
-    db.collection('channels').doc(channelId).collection('messages')
+    db.collection('channels').doc(channelId).collection('messages').orderBy('createdAt')
       .onSnapshot((snapshot) => {
         snapshot.docChanges().forEach((change) => {
           const doc = change.doc
