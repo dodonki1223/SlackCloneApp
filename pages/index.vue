@@ -24,13 +24,6 @@ export default {
   components: {
     Messages,
     ChatForm
-  },
-  mounted() {
-    db.collection('channels').doc('KUZyb5lVSJtvJfGbTKrH').get()
-      .then((doc) => {
-        console.log('doc.id: ', doc.id)
-        console.log('doc.data(): ', doc.data())
-      })
   }
 }
 </script>

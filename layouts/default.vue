@@ -2,14 +2,37 @@
   <div class="app-layout">
     <div class="sidebar">
       <p>チャンネル一覽</p>
-      <p>#general</p>
-      <p>#random</p>
+      <p v-for="channel in channels" :key="channel.id">{{ channel.name }}</p>
     </div>
     <div class="main-content">
       <nuxt />
     </div>
   </div>
 </template>
+
+<script>
+import { db } from '~/plugins/firebase'
+
+export default {
+  data() {
+    return {
+      channels: []
+    }
+  },
+  mounted() {
+    // データの取得情報に関しては以下のドキュメントに書かれています
+    //    https://firebase.google.com/docs/firestore/query-data/get-data?hl=ja#get_multiple_documents_from_a_collection
+    db.collection('channels').get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.channels.push(doc.data())
+        })
+        // データの確認用のコード
+        // console.log(this.channels)
+      })
+  }
+}
+</script>
 
 <style>
 html {
