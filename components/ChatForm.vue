@@ -1,20 +1,35 @@
 <template>
   <div class="input-container">
-    <textarea v-model="text"></textarea>
-    <button @click="checkTextValue">値を確認！</button>
+    <textarea v-model="text" v-on:keydown.enter="addMessage"></textarea>
   </div>
 </template>
 
 <script>
+import { db } from '~/plugins/firebase' 
+
 export default {
   data() {
     return {
-      text: 'テスト'
+      text: null
     }
   },
   methods: {
-    checkTextValue() {
-      console.log(this.text)
+    addMessage(event) {
+      // v-on:keydown.enterでは日本語入力中のEnterのkeyCodeと通常のEnterのkeyCodeが一緒の扱いになってしまう
+      // 日本語入力中の時は return して何も処理しないようにする
+      // 以下の記事を参考にするとよい
+      //  https://qiita.com/TsukasaGR/items/22b306cb819bc7164bd7
+      if (this.keyDownForJPConversion(event)) { return }
+
+      const channelId = this.$route.params.id
+      db.collection('channels').doc(channelId).collection('messages').add({ text: this.text })
+        .then(() => {
+          this.text = null
+        })
+    },
+    keyDownForJPConversion(event) {
+      const codeForConversion = 229
+      return event.keyCode === codeForConversion
     }
   }
 }
