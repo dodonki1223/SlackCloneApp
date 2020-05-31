@@ -15,3 +15,9 @@ export const mutations = {
     state.user = user
   }
 }
+
+export const actions = {
+  setUser(context, user) {
+    context.commit('setUser', user)
+  }
+}
