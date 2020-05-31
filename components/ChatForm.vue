@@ -1,19 +1,40 @@
 <template>
   <div class="input-container">
-    <textarea v-model="text" v-on:keydown.enter="addMessage"></textarea>
+    <textarea v-model="text" v-on:click="openLoginModal" v-on:keydown.enter="addMessage"></textarea>
+    <!--  
+      visibleに .sync を追加しないとモーダルを閉じることができない
+      ChatForm.vueにおいて dialogVisible が変更されてたことが ElDialog の
+      コンポーネントに伝わっていないのが原因
+      詳しくは下記記事を参考にするにこと
+        https://qiita.com/harhogefoo/items/7232508db1f07e6b1859
+    -->
+    <el-dialog
+      title="Tips"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <span>This is a message</span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { db } from '~/plugins/firebase' 
+import Vue from 'vue'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
 
 export default {
   data() {
     return {
+      dialogVisible: false,
       text: null
     }
   },
   methods: {
+    openLoginModal() {
+      this.dialogVisible = true
+    },
     addMessage(event) {
       /* 
         v-on:keydown.enterでは日本語入力中のEnterのkeyCodeと通常のEnterのkeyCodeが一緒の扱いになってしまう
