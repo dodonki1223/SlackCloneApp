@@ -2,7 +2,9 @@
   <div class="app-layout">
     <div class="sidebar">
       <p>チャンネル一覽</p>
-      <p v-for="channel in channels" :key="channel.id">{{ channel.name }}</p>
+      <p v-for="channel in channels" :key="channel.id">
+        <nuxt-link :to="`/channels/${channel.id}`">{{ channel.name }}</nuxt-link>
+      </p>
     </div>
     <div class="main-content">
       <nuxt />
@@ -25,7 +27,9 @@ export default {
     db.collection('channels').get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          this.channels.push(doc.data())
+          // スプレッド構文を使用して id を付加する
+          //    https://qiita.com/akisx/items/682a4283c13fe336c547
+          this.channels.push({ id: doc.id, ...doc.data() })
         })
         // データの確認用のコード
         // console.log(this.channels)
