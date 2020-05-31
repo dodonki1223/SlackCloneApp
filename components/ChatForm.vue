@@ -23,6 +23,7 @@
 import { db, firebase } from '~/plugins/firebase' 
 
 import Vue from 'vue'
+import { mapMutations } from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
@@ -35,6 +36,8 @@ export default {
     }
   },
   methods: {
+    // スプレッド構文を使用する
+    ...mapMutations(['setUser']),
     openLoginModal() {
       this.dialogVisible = true
     },
@@ -76,7 +79,13 @@ export default {
           // then と catch については以下の記事を参照するとよい
           //   https://rightcode.co.jp/blog/information-technology/javascript-promise
           const user = result.user
-          console.log(user)
+          // vuex の mutations の setUser メソッドを実行している
+          // index.jsのexport const strict = false を記載しているのはVuexの思想に則っていないで Action を
+          // 使わないで State を変更しているからです
+          // 詳しくは以下の記事を参考にしてください
+          //   https://qiita.com/frost_star/items/4620957fce888150e4cc
+          this.setUser(user)
+          this.dialogVisible = false
         }).catch((error) => {
           window.alert(error)
         })
