@@ -50,6 +50,25 @@ export default {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setUser(user)
+        // ユーザ情報があればデータベースに保存する（他人になりすまされないようにする）
+        //   JSだけではセキュリティに問題があるためサーバー側でも設定する
+        // document id をなぜ user の uid にするのか？
+        //   Firestoreに以下のセキュリティのルールを追加することで本人からのリクエストだと理解する
+        //   -----------------------------------------------------------------------------
+        //   match /profiles/{profileId} {
+        //   	allow write: if request.auth.uid == profileId;
+        //   }
+        //   -----------------------------------------------------------------------------
+        //   request.auth.uid は user.uid を表しており、profileId は user.uid を表している
+        // add、setメソッドの違いについて
+        //   add は doc の id を指定しない時に使って、set は id を指定する時に使う
+　　　　//   db.collection('profiles').doc(user.uid).set({})
+　　　　//   db.collection('profiles').add({})
+        db.collection('profiles').doc(user.uid).set({
+          uid: user.uid,
+          displayName: user.displayName,
+          photoURL: user.photoURL
+        })
       }
     })
     // データの取得情報に関しては以下のドキュメントに書かれています
