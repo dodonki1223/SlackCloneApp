@@ -44,6 +44,14 @@ export default {
     }
   },
   mounted() {
+    // 現在ログインしているユーザーを取得するには、Authオブジェクトでオブザーバーを設定することをオススメ
+    // 詳しくは以下のドキュメントを参考にすること
+    //   https://firebase.google.com/docs/auth/web/manage-users?hl=JA
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setUser(user)
+      }
+    })
     // データの取得情報に関しては以下のドキュメントに書かれています
     //    https://firebase.google.com/docs/firestore/query-data/get-data?hl=ja#get_multiple_documents_from_a_collection
     db.collection('channels').get()
