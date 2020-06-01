@@ -1,5 +1,7 @@
 # slack-clone-app
 
+note にて公開されている [作りながら学ぶVue！Slack風クローンアプリを作ろう【JS初心者でも可】](https://note.com/cohki0305/n/ne21cd96137ec) の写経用リポジトリです  
+
 > My phenomenal Nuxt.js project
 
 ## Build Setup
